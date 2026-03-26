@@ -338,10 +338,33 @@
       margin: 0;
       margin-top: 0.3rem;
       border-radius: 50%;
-      padding: 3px;
-      background: var(--gradient-1);
-      box-shadow: 0 18px 45px rgba(0, 212, 255, 0.18);
+      padding: 4px;
+      position: relative;
+      overflow: hidden;
+      background:
+        conic-gradient(from 120deg, rgba(0, 212, 255, 0.95), rgba(108, 99, 255, 0.95), rgba(255, 107, 157, 0.9), rgba(0, 212, 255, 0.95));
+      box-shadow: 0 16px 42px rgba(0, 212, 255, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.06);
       animation: fadeInDown 0.8s ease 0.15s both;
+    }
+
+    .hero-profile::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, rgba(255,255,255,0.35), transparent 35%, transparent 70%, rgba(255,255,255,0.22));
+      animation: profileSpin 10s linear infinite;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .hero-profile::after {
+      content: '';
+      position: absolute;
+      inset: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      pointer-events: none;
     }
 
     .hero-profile img {
@@ -349,9 +372,16 @@
       height: 100%;
       border-radius: 50%;
       object-fit: cover;
+      object-position: center top;
       display: block;
-      filter: grayscale(1) contrast(1.05);
-      border: 2px solid rgba(255, 255, 255, 0.08);
+      filter: grayscale(0.12) contrast(1.08) saturate(1.05);
+      border: 2px solid rgba(10, 10, 15, 0.45);
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes profileSpin {
+      to { transform: rotate(360deg); }
     }
 
     .hero-badge {
@@ -680,6 +710,7 @@
       font-size: 1.8rem;
       font-weight: 700;
       margin-bottom: 1.2rem;
+      margin-left: 0.5rem;
     }
 
     .about-text h3 span {
@@ -1166,9 +1197,9 @@
       width: 92px;
       height: 92px;
       border-radius: 22px;
-      border: 1px solid rgba(108, 99, 255, 0.35);
-      background: linear-gradient(145deg, rgba(12, 16, 44, 0.92), rgba(36, 23, 71, 0.85));
-      box-shadow: 0 12px 30px rgba(108, 99, 255, 0.22);
+      border: 1px solid rgba(0, 212, 255, 0.4);
+      background: linear-gradient(145deg, rgba(8, 22, 44, 0.95), rgba(0, 72, 124, 0.55));
+      box-shadow: 0 12px 30px rgba(0, 212, 255, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1181,17 +1212,17 @@
     .owl-companion:hover {
       transform: translateY(-4px) scale(1.04);
       border-color: rgba(0, 212, 255, 0.65);
-      box-shadow: 0 15px 34px rgba(0, 212, 255, 0.26);
+      box-shadow: 0 15px 34px rgba(0, 212, 255, 0.34);
     }
 
     .owl-companion span {
       font-size: 2.65rem;
       line-height: 1;
-      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35)) saturate(1.15);
     }
 
     .owl-companion::after {
-      content: 'Hover me';
+      content: 'Hover owl';
       position: absolute;
       left: 50%;
       top: calc(100% + 0.4rem);
@@ -1574,7 +1605,7 @@
   <canvas id="particles-canvas"></canvas>
 
   <!-- Owl Companion -->
-  <button id="owlCompanion" class="owl-companion" aria-label="Play owl sound">
+  <button id="owlCompanion" class="owl-companion" aria-label="Play owl sound on hover">
     <span>🦉</span>
   </button>
 
@@ -1687,7 +1718,7 @@
             <i class="fas fa-rocket"></i> 4+ Years Exp.
           </div>
           <div class="floating-badge">
-            <i class="fas fa-brain"></i> AI/ML Integration
+            <i class="fas fa-code"></i> Full Stack Developer
           </div>
           <div class="floating-badge">
             <i class="fas fa-map-marker-alt"></i> Mohali, India
@@ -2242,20 +2273,9 @@
       let lastPlay = 0;
       const owlAudio = new Audio('https://www.soundjay.com/animal/owl-1.mp3');
       owlAudio.preload = 'auto';
-      owlAudio.volume = 0.35;
+      owlAudio.volume = 0.55;
       owlAudio.playsInline = true;
       let soundUnlocked = false;
-
-      // Fallback synth if external audio is blocked/unavailable.
-      let audioCtx = null;
-      function ensureContext() {
-        if (!audioCtx) {
-          const Ctx = window.AudioContext || window.webkitAudioContext;
-          if (!Ctx) return;
-          audioCtx = new Ctx();
-        }
-        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-      }
 
       async function unlockSound() {
         if (soundUnlocked) return;
@@ -2267,26 +2287,7 @@
           owlAudio.currentTime = 0;
           owlAudio.muted = false;
           soundUnlocked = true;
-        } catch (_) {
-          ensureContext();
-          if (audioCtx && audioCtx.state === 'running') soundUnlocked = true;
-        }
-      }
-
-      function tone(startTime, frequency, duration, gainPeak) {
-        if (!audioCtx) return;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(frequency, startTime);
-        osc.frequency.exponentialRampToValueAtTime(Math.max(80, frequency * 0.72), startTime + duration);
-        gain.gain.setValueAtTime(0.0001, startTime);
-        gain.gain.exponentialRampToValueAtTime(gainPeak, startTime + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start(startTime);
-        osc.stop(startTime + duration + 0.02);
+        } catch (_) {}
       }
 
       function playPeacefulOwl() {
@@ -2294,13 +2295,7 @@
         if (now - lastPlay < 700) return;
         lastPlay = now;
         owlAudio.currentTime = 0;
-        owlAudio.play().catch(() => {
-          ensureContext();
-          if (!audioCtx) return;
-          const t = audioCtx.currentTime + 0.01;
-          tone(t, 410, 0.5, 0.03);
-          tone(t + 0.42, 300, 0.56, 0.026);
-        });
+        owlAudio.play().catch(() => {});
       }
 
       owl.addEventListener('mouseenter', playPeacefulOwl);
