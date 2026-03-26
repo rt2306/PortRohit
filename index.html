@@ -68,6 +68,83 @@
     }
     .cursor-glow.active { opacity: 1; }
 
+    .cursor-dot {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: linear-gradient(135deg, #00d4ff, #8b5cf6);
+      box-shadow: 0 0 16px rgba(0, 212, 255, 0.6);
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%) rotate(45deg);
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      mix-blend-mode: screen;
+    }
+    .cursor-dot.active { opacity: 1; }
+
+    .cursor-ring {
+      position: fixed;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 20px rgba(108, 99, 255, 0.2), inset 0 0 10px rgba(0, 212, 255, 0.08);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+      mix-blend-mode: screen;
+      overflow: hidden;
+    }
+    .cursor-ring.active { opacity: 1; }
+
+    .cursor-ring::before {
+      content: '';
+      position: absolute;
+      inset: -14px;
+      background: conic-gradient(from 0deg, rgba(0, 212, 255, 0.7), rgba(139, 92, 246, 0.65), rgba(255, 107, 157, 0.7), rgba(0, 212, 255, 0.7));
+      animation: cursorRingSpin 3s linear infinite;
+      opacity: 0.85;
+    }
+
+    .cursor-ring::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 8px;
+      background: rgba(10, 10, 15, 0.92);
+    }
+
+    @keyframes cursorRingSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .cursor-ring.interactive {
+      width: 52px;
+      height: 52px;
+      border-color: rgba(255, 107, 157, 0.75);
+    }
+
+    .cursor-burst {
+      position: fixed;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9997;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.85) 0%, rgba(108, 99, 255, 0.1) 65%, transparent 80%);
+      animation: cursorBurst 450ms ease-out forwards;
+    }
+
+    @keyframes cursorBurst {
+      0% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.6); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
+    }
+
     /* ===== PARTICLE CANVAS ===== */
     #particles-canvas {
       position: fixed;
@@ -238,6 +315,43 @@
     .hero-content {
       position: relative;
       z-index: 2;
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .hero-main {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 2.4rem;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .hero-details {
+      max-width: 760px;
+    }
+
+    .hero-profile {
+      width: 190px;
+      height: 190px;
+      margin: 0;
+      margin-top: 0.3rem;
+      border-radius: 50%;
+      padding: 3px;
+      background: var(--gradient-1);
+      box-shadow: 0 18px 45px rgba(0, 212, 255, 0.18);
+      animation: fadeInDown 0.8s ease 0.15s both;
+    }
+
+    .hero-profile img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(1) contrast(1.05);
+      border: 2px solid rgba(255, 255, 255, 0.08);
     }
 
     .hero-badge {
@@ -270,18 +384,20 @@
     .hero-name {
       font-size: 4.5rem;
       font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      white-space: nowrap;
       animation: fadeInUp 0.8s ease 0.4s both;
     }
 
     .hero-name .first {
-      display: block;
+      display: inline-block;
+      margin-right: 0.45rem;
       color: var(--text-primary);
     }
 
     .hero-name .last {
-      display: block;
+      display: inline-block;
       background: var(--gradient-1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -307,7 +423,7 @@
     .hero-mini-stack {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 0.55rem;
       margin-bottom: 2.2rem;
       animation: fadeInUp 0.8s ease 0.9s both;
@@ -335,7 +451,7 @@
     .hero-buttons {
       display: flex;
       gap: 1rem;
-      justify-content: center;
+      justify-content: flex-start;
       flex-wrap: wrap;
       animation: fadeInUp 0.8s ease 1s both;
     }
@@ -379,7 +495,7 @@
 
     .hero-stats {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 3rem;
       margin-top: 3rem;
       animation: fadeInUp 0.8s ease 1.2s both;
@@ -512,8 +628,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 8rem;
       overflow: hidden;
+    }
+
+    .about-image-box-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(1) contrast(1.05);
     }
 
     .about-image-box::before {
@@ -784,7 +907,6 @@
       overflow: hidden;
       transition: all 0.4s ease;
       position: relative;
-      group: true;
     }
 
     .project-card.featured {
@@ -957,19 +1079,31 @@
 
     /* ===== CONTACT / FOOTER ===== */
     .contact {
-      text-align: center;
+      text-align: left;
       padding-bottom: 2rem;
     }
 
-    .contact-cta {
-      max-width: 700px;
+    .contact-wrap {
+      max-width: 760px;
       margin: 0 auto 3rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: stretch;
+    }
+
+    .contact-cta {
+      padding: 2rem;
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(108, 99, 255, 0.08), rgba(0, 212, 255, 0.04));
+      border: 1px solid var(--border);
     }
 
     .contact-cta h2 {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       font-weight: 800;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.2;
     }
 
     .contact-cta h2 span {
@@ -981,38 +1115,98 @@
 
     .contact-cta p {
       color: var(--text-secondary);
-      font-size: 1.1rem;
+      font-size: 1rem;
+      margin-bottom: 1.3rem;
     }
 
     .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 4rem;
+      display: grid;
+      gap: 0.85rem;
     }
 
     .contact-link {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
-      padding: 1rem 1.5rem;
-      border-radius: 14px;
-      background: var(--bg-card);
+      gap: 0.8rem;
+      padding: 0.95rem 1rem;
+      border-radius: 12px;
+      background: rgba(15, 17, 35, 0.85);
       border: 1px solid var(--border);
       transition: all 0.3s ease;
       font-weight: 500;
+      font-size: 0.95rem;
     }
 
     .contact-link:hover {
       border-color: var(--accent);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(108, 99, 255, 0.15);
+      transform: translateX(4px);
+      box-shadow: 0 8px 24px rgba(108, 99, 255, 0.15);
     }
 
     .contact-link i {
-      font-size: 1.2rem;
-      color: var(--accent);
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      color: var(--accent2);
+      background: rgba(108, 99, 255, 0.12);
+      border: 1px solid rgba(108, 99, 255, 0.2);
+      flex-shrink: 0;
+    }
+
+
+    .owl-companion {
+      position: fixed;
+      right: 1.4rem;
+      top: 6.8rem;
+      z-index: 1200;
+      width: 92px;
+      height: 92px;
+      border-radius: 22px;
+      border: 1px solid rgba(108, 99, 255, 0.35);
+      background: linear-gradient(145deg, rgba(12, 16, 44, 0.92), rgba(36, 23, 71, 0.85));
+      box-shadow: 0 12px 30px rgba(108, 99, 255, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      animation: owlFloat 5s ease-in-out infinite;
+    }
+
+    .owl-companion:hover {
+      transform: translateY(-4px) scale(1.04);
+      border-color: rgba(0, 212, 255, 0.65);
+      box-shadow: 0 15px 34px rgba(0, 212, 255, 0.26);
+    }
+
+    .owl-companion span {
+      font-size: 2.65rem;
+      line-height: 1;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+    }
+
+    .owl-companion::after {
+      content: 'Hover me';
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 0.4rem);
+      transform: translateX(-50%);
+      font-size: 0.64rem;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      opacity: 0.8;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    @keyframes owlFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
     }
 
     .footer {
@@ -1160,6 +1354,14 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 968px) {
+      .hero-main {
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-items: center;
+      }
+      .hero-details {
+        max-width: 100%;
+      }
       .about-grid {
         grid-template-columns: 1fr;
         gap: 3rem;
@@ -1167,6 +1369,13 @@
       }
       .about-highlights { justify-content: center; }
       .hero-name { font-size: 3.2rem; }
+      .hero-name { white-space: nowrap; }
+      .hero-profile { width: 165px; height: 165px; }
+      .hero-mini-stack,
+      .hero-buttons,
+      .hero-stats {
+        justify-content: center;
+      }
       .section-title { font-size: 2.2rem; }
       .skills-grid { grid-template-columns: 1fr; }
       .projects-grid { grid-template-columns: 1fr; }
@@ -1203,6 +1412,8 @@
       .nav-toggle { display: flex; }
 
       .hero-name { font-size: 2.5rem; }
+      .hero-name { white-space: nowrap; }
+      .hero-profile { width: 140px; height: 140px; }
       .hero {
         min-height: auto;
         padding-top: 6.5rem;
@@ -1272,19 +1483,36 @@
       .floating-badge { display: none; }
 
       .about-image-box { width: 250px; height: 300px; }
-      .about-image-box-inner { font-size: 5rem; }
+      .about-image-box-inner img { object-position: center top; }
 
       .contact-cta h2 { font-size: 1.8rem; }
-      .contact-links { flex-direction: column; align-items: center; }
+      .contact-wrap {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .contact-cta {
+        padding: 1.2rem;
+      }
+      .contact-links { align-items: stretch; }
       .contact-link {
         width: 100%;
-        max-width: 320px;
-        justify-content: center;
+        max-width: 100%;
+      }
+      .owl-companion {
+        width: 74px;
+        height: 74px;
+        right: 0.8rem;
+        top: 5.8rem;
+      }
+      .owl-companion span {
+        font-size: 2.05rem;
       }
     }
 
     @media (max-width: 480px) {
       .hero-name { font-size: 2rem; }
+      .hero-name { white-space: nowrap; }
+      .hero-profile { width: 120px; height: 120px; }
       .hero-title { font-size: 1rem; }
       .hero-typing { min-height: 2.8em; }
       .hero-mini-stack {
@@ -1311,10 +1539,15 @@
         border-radius: 14px;
       }
       .project-header { padding: 1rem 1rem 0; }
+      .owl-companion {
+        display: none;
+      }
     }
 
     @media (hover: none), (pointer: coarse) {
       .cursor-glow,
+      .cursor-dot,
+      .cursor-ring,
       #particles-canvas,
       .scroll-indicator {
         display: none;
@@ -1334,9 +1567,16 @@
 <body>
   <!-- Cursor Glow -->
   <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
   <!-- Particle Canvas -->
   <canvas id="particles-canvas"></canvas>
+
+  <!-- Owl Companion -->
+  <button id="owlCompanion" class="owl-companion" aria-label="Play owl sound">
+    <span>🦉</span>
+  </button>
 
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
@@ -1355,63 +1595,70 @@
   </nav>
 
   <!-- ========== HERO ========== -->
-  <section class="hero" id="hero">
+  <section class="hero" id="hero" data-cursor="hero">
     <div class="hero-content">
-      <div class="hero-badge">
-        <span class="dot"></span>
-        Available for new opportunities
-      </div>
-      <h1 class="hero-name">
-        <span class="first">Rohit</span>
-        <span class="last">Thakur</span>
-      </h1>
-      <p class="hero-title">Full Stack Developer | AI Product Engineer | Real-Time Systems Specialist</p>
-      <p class="hero-typing">
-        <span id="typed-text"></span><span class="cursor-blink">|</span>
-      </p>
-      <div class="hero-mini-stack">
-        <span class="hero-pill">4+ Years Building Products</span>
-        <span class="hero-pill">AI + Voice Automation</span>
-        <span class="hero-pill">Scalable Backend Architecture</span>
-        <span class="hero-pill">Production-Ready Delivery</span>
-      </div>
-      <div class="hero-buttons">
-        <a href="#contact" class="btn btn-primary magnetic">
-          <i class="fas fa-paper-plane"></i> Get in Touch
-        </a>
-        <a href="#projects" class="btn btn-outline magnetic">
-          <i class="fas fa-code"></i> View Projects
-        </a>
-        <a href="https://www.linkedin.com/in/rohit-thakur-0bb019194" target="_blank" class="btn btn-outline magnetic">
-          <i class="fab fa-linkedin"></i> LinkedIn
-        </a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="stat-number"><span class="count-up" data-target="4">0</span>+</div>
-          <div class="stat-label">Years Experience</div>
+      <div class="hero-main">
+        <div class="hero-profile">
+          <img src="thakur.png" alt="Rohit Thakur profile photo" loading="eager" />
         </div>
-        <div class="stat">
-          <div class="stat-number"><span class="count-up" data-target="15">0</span>+</div>
-          <div class="stat-label">Projects Delivered</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number"><span class="count-up" data-target="10">0</span>+</div>
-          <div class="stat-label">Tech Stack</div>
-        </div>
-      </div>
-      <div class="achievement-strip">
-        <div class="achievement-item">
-          <strong>End-to-End Ownership</strong>
-          <span>From architecture and APIs to polished frontend delivery.</span>
-        </div>
-        <div class="achievement-item">
-          <strong>AI + Voice Expertise</strong>
-          <span>Built production bots with real-time interactions.</span>
-        </div>
-        <div class="achievement-item">
-          <strong>High-Speed Execution</strong>
-          <span>Rapid delivery with maintainable and scalable code.</span>
+        <div class="hero-details">
+          <div class="hero-badge">
+            <span class="dot"></span>
+            Available for new opportunities
+          </div>
+          <h1 class="hero-name">
+            <span class="first">Rohit</span>
+            <span class="last">Thakur</span>
+          </h1>
+          <p class="hero-title">Full Stack Developer | AI Product Engineer | Real-Time Systems Specialist</p>
+          <p class="hero-typing">
+            <span id="typed-text"></span><span class="cursor-blink">|</span>
+          </p>
+          <div class="hero-mini-stack">
+            <span class="hero-pill">4+ Years Building Products</span>
+            <span class="hero-pill">AI + Voice Automation</span>
+            <span class="hero-pill">Scalable Backend Architecture</span>
+            <span class="hero-pill">Production-Ready Delivery</span>
+          </div>
+          <div class="hero-buttons">
+            <a href="#contact" class="btn btn-primary magnetic">
+              <i class="fas fa-paper-plane"></i> Get in Touch
+            </a>
+            <a href="#projects" class="btn btn-outline magnetic">
+              <i class="fas fa-code"></i> View Projects
+            </a>
+            <a href="https://www.linkedin.com/in/rohit-thakur-0bb019194" target="_blank" class="btn btn-outline magnetic">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="stat-number"><span class="count-up" data-target="4">0</span>+</div>
+              <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number"><span class="count-up" data-target="15">0</span>+</div>
+              <div class="stat-label">Projects Delivered</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number"><span class="count-up" data-target="10">0</span>+</div>
+              <div class="stat-label">Tech Stack</div>
+            </div>
+          </div>
+          <div class="achievement-strip">
+            <div class="achievement-item">
+              <strong>End-to-End Ownership</strong>
+              <span>From architecture and APIs to polished frontend delivery.</span>
+            </div>
+            <div class="achievement-item">
+              <strong>AI + Voice Expertise</strong>
+              <span>Built production bots with real-time interactions.</span>
+            </div>
+            <div class="achievement-item">
+              <strong>High-Speed Execution</strong>
+              <span>Rapid delivery with maintainable and scalable code.</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1422,7 +1669,7 @@
   </section>
 
   <!-- ========== ABOUT ========== -->
-  <section class="about" id="about">
+  <section class="about" id="about" data-cursor="about">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-label">About Me</span>
@@ -1432,7 +1679,9 @@
       <div class="about-grid">
         <div class="about-image-wrapper reveal-left">
           <div class="about-image-box tilt-card">
-            <div class="about-image-box-inner">👨‍💻</div>
+            <div class="about-image-box-inner">
+              <img src="thakur.png" alt="Rohit Thakur portrait" loading="lazy" />
+            </div>
           </div>
           <div class="floating-badge">
             <i class="fas fa-rocket"></i> 4+ Years Exp.
@@ -1476,7 +1725,7 @@
   </section>
 
   <!-- ========== SKILLS ========== -->
-  <section class="skills" id="skills">
+  <section class="skills" id="skills" data-cursor="skills">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-label">My Toolkit</span>
@@ -1559,7 +1808,7 @@
   </section>
 
   <!-- ========== EXPERIENCE ========== -->
-  <section class="experience" id="experience">
+  <section class="experience" id="experience" data-cursor="experience">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-label">Career Path</span>
@@ -1608,7 +1857,7 @@
   </section>
 
   <!-- ========== PROJECTS ========== -->
-  <section class="projects" id="projects">
+  <section class="projects" id="projects" data-cursor="projects">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-label">Featured Work</span>
@@ -1741,7 +1990,7 @@
   </section>
 
   <!-- ========== EDUCATION ========== -->
-  <section class="education" id="education">
+  <section class="education" id="education" data-cursor="education">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-label">Education</span>
@@ -1779,25 +2028,27 @@
   </section>
 
   <!-- ========== CONTACT ========== -->
-  <section class="contact" id="contact">
+  <section class="contact" id="contact" data-cursor="contact">
     <div class="container">
-      <div class="contact-cta reveal">
-        <h2>Let's Build Something <span>Amazing</span> Together</h2>
-        <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
-      </div>
-      <div class="contact-links stagger-children">
-        <a href="https://www.linkedin.com/in/rohit-thakur-0bb019194" target="_blank" class="contact-link magnetic">
-          <i class="fab fa-linkedin"></i> LinkedIn Profile
-        </a>
-        <a href="mailto:thakurrohitthakur224@gmail.com" class="contact-link magnetic">
-          <i class="fas fa-envelope"></i> Send Email
-        </a>
-        <a href="tel:+917018384067" class="contact-link magnetic">
-          <i class="fas fa-phone"></i> +91 70183 84067
-        </a>
-        <a href="https://github.com/rt2306" target="_blank" class="contact-link magnetic">
-          <i class="fab fa-github"></i> GitHub
-        </a>
+      <div class="contact-wrap">
+        <div class="contact-cta reveal-left">
+          <h2>Let's Build Something <span>Amazing</span> Together</h2>
+          <p>Open to full-time roles, freelance projects, and high-impact product collaborations. Share your idea and I will help turn it into a production-ready solution.</p>
+          <div class="contact-links stagger-children">
+            <a href="mailto:thakurrohitthakur224@gmail.com" class="contact-link magnetic">
+              <i class="fas fa-envelope"></i> thakurrohitthakur224@gmail.com
+            </a>
+            <a href="tel:+917018384067" class="contact-link magnetic">
+              <i class="fas fa-phone"></i> +91 70183 84067
+            </a>
+            <a href="https://www.linkedin.com/in/rohit-thakur-0bb019194" target="_blank" class="contact-link magnetic">
+              <i class="fab fa-linkedin"></i> linkedin.com/in/rohit-thakur-0bb019194
+            </a>
+            <a href="https://github.com/rt2306" target="_blank" class="contact-link magnetic">
+              <i class="fab fa-github"></i> github.com/rt2306
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1904,19 +2155,160 @@
       window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
     })();
 
-    // ===== CURSOR GLOW =====
+    // ===== CURSOR SYSTEM =====
     (function() {
       const glow = document.getElementById('cursorGlow');
+      const dot = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+      const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      if (isTouchDevice || !ring || !dot || !glow) return;
       let active = false;
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let ringX = mouseX;
+      let ringY = mouseY;
+      let dotX = mouseX;
+      let dotY = mouseY;
+      let hoverInteractive = false;
+
+      function animateCursor() {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        dotX += (mouseX - dotX) * 0.35;
+        dotY += (mouseY - dotY) * 0.35;
+        ring.style.left = ringX + 'px';
+        ring.style.top = ringY + 'px';
+        dot.style.left = dotX + 'px';
+        dot.style.top = dotY + 'px';
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      function isInteractiveTarget(el) {
+        if (!el || !el.closest) return false;
+        return Boolean(el.closest('a, button, input, textarea, select, label, .btn, .contact-link, .project-card, .skill-tag'));
+      }
+
       document.addEventListener('mousemove', e => {
-        if (!active) { glow.classList.add('active'); active = true; }
+        if (!active) {
+          glow.classList.add('active');
+          ring.classList.add('active');
+          dot.classList.add('active');
+          active = true;
+        }
         glow.style.left = e.clientX + 'px';
         glow.style.top = e.clientY + 'px';
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        const target = document.elementFromPoint(e.clientX, e.clientY);
+        const interactive = isInteractiveTarget(target);
+        if (interactive !== hoverInteractive) {
+          hoverInteractive = interactive;
+          ring.classList.toggle('interactive', interactive);
+          dot.style.transform = interactive ? 'translate(-50%, -50%) rotate(45deg) scale(1.4)' : 'translate(-50%, -50%) rotate(45deg) scale(1)';
+        }
+      });
+      document.addEventListener('mousedown', e => {
+        ring.style.transform = 'translate(-50%, -50%) scale(0.86)';
+        dot.style.transform = 'translate(-50%, -50%) rotate(45deg) scale(0.85)';
+        const burst = document.createElement('span');
+        burst.className = 'cursor-burst';
+        burst.style.left = e.clientX + 'px';
+        burst.style.top = e.clientY + 'px';
+        document.body.appendChild(burst);
+        setTimeout(() => burst.remove(), 500);
+      });
+      document.addEventListener('mouseup', () => {
+        ring.style.transform = 'translate(-50%, -50%) scale(1)';
+        dot.style.transform = hoverInteractive ? 'translate(-50%, -50%) rotate(45deg) scale(1.4)' : 'translate(-50%, -50%) rotate(45deg) scale(1)';
       });
       document.addEventListener('mouseleave', () => {
         glow.classList.remove('active');
+        ring.classList.remove('active');
+        dot.classList.remove('active');
+        ring.classList.remove('interactive');
         active = false;
       });
+    })();
+
+    // ===== OWL COMPANION SOUND =====
+    (function() {
+      const owl = document.getElementById('owlCompanion');
+      if (!owl) return;
+      const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      if (isTouch) return;
+
+      let lastPlay = 0;
+      const owlAudio = new Audio('https://www.soundjay.com/animal/owl-1.mp3');
+      owlAudio.preload = 'auto';
+      owlAudio.volume = 0.35;
+      owlAudio.playsInline = true;
+      let soundUnlocked = false;
+
+      // Fallback synth if external audio is blocked/unavailable.
+      let audioCtx = null;
+      function ensureContext() {
+        if (!audioCtx) {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          audioCtx = new Ctx();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+      }
+
+      async function unlockSound() {
+        if (soundUnlocked) return;
+        try {
+          owlAudio.muted = true;
+          owlAudio.currentTime = 0;
+          await owlAudio.play();
+          owlAudio.pause();
+          owlAudio.currentTime = 0;
+          owlAudio.muted = false;
+          soundUnlocked = true;
+        } catch (_) {
+          ensureContext();
+          if (audioCtx && audioCtx.state === 'running') soundUnlocked = true;
+        }
+      }
+
+      function tone(startTime, frequency, duration, gainPeak) {
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(frequency, startTime);
+        osc.frequency.exponentialRampToValueAtTime(Math.max(80, frequency * 0.72), startTime + duration);
+        gain.gain.setValueAtTime(0.0001, startTime);
+        gain.gain.exponentialRampToValueAtTime(gainPeak, startTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.02);
+      }
+
+      function playPeacefulOwl() {
+        const now = Date.now();
+        if (now - lastPlay < 700) return;
+        lastPlay = now;
+        owlAudio.currentTime = 0;
+        owlAudio.play().catch(() => {
+          ensureContext();
+          if (!audioCtx) return;
+          const t = audioCtx.currentTime + 0.01;
+          tone(t, 410, 0.5, 0.03);
+          tone(t + 0.42, 300, 0.56, 0.026);
+        });
+      }
+
+      owl.addEventListener('mouseenter', playPeacefulOwl);
+      owl.addEventListener('mouseover', playPeacefulOwl);
+      owl.addEventListener('focus', playPeacefulOwl);
+      owl.addEventListener('click', playPeacefulOwl);
+      document.addEventListener('pointerdown', unlockSound, { once: true });
+      document.addEventListener('keydown', unlockSound, { once: true });
     })();
 
     // ===== TYPING ANIMATION =====
