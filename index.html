@@ -1394,11 +1394,46 @@
         padding: 1.2rem;
       }
 
-      .timeline::before { left: 20px; }
-      .timeline-item { padding-left: 55px; }
-      .timeline-dot { left: 11px; }
+      .timeline::before { left: 10px; }
+      .timeline-item {
+        padding-left: 30px;
+        margin-bottom: 1.6rem;
+      }
+      .timeline-dot {
+        left: 2px;
+        width: 16px;
+        height: 16px;
+        border-width: 2px;
+      }
       .timeline-card:hover {
         transform: none;
+      }
+      .timeline-date {
+        font-size: 0.78rem;
+        margin-bottom: 0.4rem;
+      }
+      .timeline-card h3 {
+        font-size: 1.1rem;
+      }
+      .timeline-card .company {
+        font-size: 0.9rem;
+      }
+      .project-list li {
+        display: block;
+        position: relative;
+        padding: 0.55rem 0 0.55rem 1rem;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+      }
+      .project-list li::before {
+        position: absolute;
+        left: 0;
+        top: 0.58rem;
+        margin-top: 0;
+      }
+      .project-list li strong {
+        display: inline;
       }
 
       .floating-badge { display: none; }
@@ -1451,6 +1486,13 @@
         border-radius: 14px;
       }
       .project-header { padding: 1rem 1rem 0; }
+      .timeline-card {
+        padding: 1rem;
+      }
+      .project-list li {
+        font-size: 0.86rem;
+        line-height: 1.55;
+      }
     }
 
     @media (hover: none), (pointer: coarse) {
