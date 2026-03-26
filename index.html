@@ -68,82 +68,22 @@
     }
     .cursor-glow.active { opacity: 1; }
 
-    .cursor-dot {
+    .cursor-section-icon {
       position: fixed;
-      width: 10px;
-      height: 10px;
-      border-radius: 3px;
-      background: linear-gradient(135deg, #00d4ff, #8b5cf6);
-      box-shadow: 0 0 16px rgba(0, 212, 255, 0.6);
       pointer-events: none;
       z-index: 10000;
-      transform: translate(-50%, -50%) rotate(45deg);
-      opacity: 0;
-      transition: opacity 0.2s ease, transform 0.15s ease;
-      mix-blend-mode: screen;
-    }
-    .cursor-dot.active { opacity: 1; }
-
-    .cursor-ring {
-      position: fixed;
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 20px rgba(108, 99, 255, 0.2), inset 0 0 10px rgba(0, 212, 255, 0.08);
-      pointer-events: none;
-      z-index: 9999;
       transform: translate(-50%, -50%);
       opacity: 0;
-      transition: opacity 0.2s ease, transform 0.2s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+      color: #00d4ff;
+      text-shadow: 0 0 12px rgba(0, 212, 255, 0.95), 0 0 24px rgba(108, 99, 255, 0.7);
+      transition: opacity 0.2s ease, transform 0.12s ease, color 0.2s ease, text-shadow 0.2s ease;
       mix-blend-mode: screen;
-      overflow: hidden;
     }
-    .cursor-ring.active { opacity: 1; }
-
-    .cursor-ring::before {
-      content: '';
-      position: absolute;
-      inset: -14px;
-      background: conic-gradient(from 0deg, rgba(0, 212, 255, 0.7), rgba(139, 92, 246, 0.65), rgba(255, 107, 157, 0.7), rgba(0, 212, 255, 0.7));
-      animation: cursorRingSpin 3s linear infinite;
-      opacity: 0.85;
+    .cursor-section-icon i {
+      font-size: 1.2rem;
+      line-height: 1;
     }
-
-    .cursor-ring::after {
-      content: '';
-      position: absolute;
-      inset: 2px;
-      border-radius: 8px;
-      background: rgba(10, 10, 15, 0.92);
-    }
-
-    @keyframes cursorRingSpin {
-      to { transform: rotate(360deg); }
-    }
-
-    .cursor-ring.interactive {
-      width: 52px;
-      height: 52px;
-      border-color: rgba(255, 107, 157, 0.75);
-    }
-
-    .cursor-burst {
-      position: fixed;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9997;
-      transform: translate(-50%, -50%);
-      background: radial-gradient(circle, rgba(0, 212, 255, 0.85) 0%, rgba(108, 99, 255, 0.1) 65%, transparent 80%);
-      animation: cursorBurst 450ms ease-out forwards;
-    }
-
-    @keyframes cursorBurst {
-      0% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.6); }
-      100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
-    }
+    .cursor-section-icon.active { opacity: 1; }
 
     /* ===== PARTICLE CANVAS ===== */
     #particles-canvas {
@@ -701,8 +641,8 @@
     }
 
     .floating-badge:nth-child(2) { top: 10%; right: -10%; animation-delay: -1s; }
-    .floating-badge:nth-child(3) { bottom: 15%; left: -10%; animation-delay: -2s; }
-    .floating-badge:nth-child(4) { top: 50%; right: -15%; animation-delay: -3s; }
+    .floating-badge:nth-child(3) { bottom: 15%; left: -4%; animation-delay: -2s; }
+    .floating-badge:nth-child(4) { top: 52%; right: -4%; animation-delay: -3s; }
 
     .floating-badge i { color: var(--accent); }
 
@@ -1189,56 +1129,6 @@
     }
 
 
-    .owl-companion {
-      position: fixed;
-      right: 1.4rem;
-      top: 6.8rem;
-      z-index: 1200;
-      width: 92px;
-      height: 92px;
-      border-radius: 22px;
-      border: 1px solid rgba(0, 212, 255, 0.4);
-      background: linear-gradient(145deg, rgba(8, 22, 44, 0.95), rgba(0, 72, 124, 0.55));
-      box-shadow: 0 12px 30px rgba(0, 212, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      user-select: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      animation: owlFloat 5s ease-in-out infinite;
-    }
-
-    .owl-companion:hover {
-      transform: translateY(-4px) scale(1.04);
-      border-color: rgba(0, 212, 255, 0.65);
-      box-shadow: 0 15px 34px rgba(0, 212, 255, 0.34);
-    }
-
-    .owl-companion span {
-      font-size: 2.65rem;
-      line-height: 1;
-      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35)) saturate(1.15);
-    }
-
-    .owl-companion::after {
-      content: 'Hover owl';
-      position: absolute;
-      left: 50%;
-      top: calc(100% + 0.4rem);
-      transform: translateX(-50%);
-      font-size: 0.64rem;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      opacity: 0.8;
-      white-space: nowrap;
-      pointer-events: none;
-    }
-
-    @keyframes owlFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-7px); }
-    }
 
     .footer {
       border-top: 1px solid var(--border);
@@ -1529,15 +1419,6 @@
         width: 100%;
         max-width: 100%;
       }
-      .owl-companion {
-        width: 74px;
-        height: 74px;
-        right: 0.8rem;
-        top: 5.8rem;
-      }
-      .owl-companion span {
-        font-size: 2.05rem;
-      }
     }
 
     @media (max-width: 480px) {
@@ -1570,15 +1451,11 @@
         border-radius: 14px;
       }
       .project-header { padding: 1rem 1rem 0; }
-      .owl-companion {
-        display: none;
-      }
     }
 
     @media (hover: none), (pointer: coarse) {
       .cursor-glow,
-      .cursor-dot,
-      .cursor-ring,
+      .cursor-section-icon,
       #particles-canvas,
       .scroll-indicator {
         display: none;
@@ -1598,16 +1475,10 @@
 <body>
   <!-- Cursor Glow -->
   <div class="cursor-glow" id="cursorGlow"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-section-icon" id="cursorSectionIcon" aria-hidden="true"><i class="fas fa-bolt"></i></div>
 
   <!-- Particle Canvas -->
   <canvas id="particles-canvas"></canvas>
-
-  <!-- Owl Companion -->
-  <button id="owlCompanion" class="owl-companion" aria-label="Play owl sound on hover">
-    <span>🦉</span>
-  </button>
 
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
@@ -2186,124 +2057,58 @@
       window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
     })();
 
-    // ===== CURSOR SYSTEM =====
+    // ===== CURSOR GLOW =====
     (function() {
       const glow = document.getElementById('cursorGlow');
-      const dot = document.getElementById('cursorDot');
-      const ring = document.getElementById('cursorRing');
+      const icon = document.getElementById('cursorSectionIcon');
       const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-      if (isTouchDevice || !ring || !dot || !glow) return;
+      if (isTouchDevice || !glow || !icon) return;
       let active = false;
-      let mouseX = window.innerWidth / 2;
-      let mouseY = window.innerHeight / 2;
-      let ringX = mouseX;
-      let ringY = mouseY;
-      let dotX = mouseX;
-      let dotY = mouseY;
-      let hoverInteractive = false;
+      let currentSection = '';
+      const sectionIconMap = {
+        hero: { icon: 'fas fa-bolt', color: '#00d4ff' },
+        about: { icon: 'fas fa-user', color: '#8b83ff' },
+        skills: { icon: 'fas fa-code', color: '#22d3ee' },
+        experience: { icon: 'fas fa-briefcase', color: '#ff6b9d' },
+        projects: { icon: 'fas fa-diagram-project', color: '#4ade80' },
+        education: { icon: 'fas fa-graduation-cap', color: '#f59e0b' },
+        contact: { icon: 'fas fa-paper-plane', color: '#38bdf8' }
+      };
 
-      function animateCursor() {
-        ringX += (mouseX - ringX) * 0.18;
-        ringY += (mouseY - ringY) * 0.18;
-        dotX += (mouseX - dotX) * 0.35;
-        dotY += (mouseY - dotY) * 0.35;
-        ring.style.left = ringX + 'px';
-        ring.style.top = ringY + 'px';
-        dot.style.left = dotX + 'px';
-        dot.style.top = dotY + 'px';
-        requestAnimationFrame(animateCursor);
-      }
-      animateCursor();
-
-      function isInteractiveTarget(el) {
-        if (!el || !el.closest) return false;
-        return Boolean(el.closest('a, button, input, textarea, select, label, .btn, .contact-link, .project-card, .skill-tag'));
+      function updateIconBySection(target) {
+        const section = target && target.closest ? target.closest('section[data-cursor]') : null;
+        const key = section ? section.getAttribute('data-cursor') : '';
+        if (!key || key === currentSection) return;
+        currentSection = key;
+        const conf = sectionIconMap[key] || sectionIconMap.hero;
+        icon.innerHTML = `<i class="${conf.icon}"></i>`;
+        icon.style.color = conf.color;
       }
 
       document.addEventListener('mousemove', e => {
         if (!active) {
           glow.classList.add('active');
-          ring.classList.add('active');
-          dot.classList.add('active');
+          icon.classList.add('active');
           active = true;
         }
         glow.style.left = e.clientX + 'px';
         glow.style.top = e.clientY + 'px';
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-
+        icon.style.left = (e.clientX + 26) + 'px';
+        icon.style.top = (e.clientY - 20) + 'px';
         const target = document.elementFromPoint(e.clientX, e.clientY);
-        const interactive = isInteractiveTarget(target);
-        if (interactive !== hoverInteractive) {
-          hoverInteractive = interactive;
-          ring.classList.toggle('interactive', interactive);
-          dot.style.transform = interactive ? 'translate(-50%, -50%) rotate(45deg) scale(1.4)' : 'translate(-50%, -50%) rotate(45deg) scale(1)';
-        }
+        updateIconBySection(target);
       });
-      document.addEventListener('mousedown', e => {
-        ring.style.transform = 'translate(-50%, -50%) scale(0.86)';
-        dot.style.transform = 'translate(-50%, -50%) rotate(45deg) scale(0.85)';
-        const burst = document.createElement('span');
-        burst.className = 'cursor-burst';
-        burst.style.left = e.clientX + 'px';
-        burst.style.top = e.clientY + 'px';
-        document.body.appendChild(burst);
-        setTimeout(() => burst.remove(), 500);
-      });
-      document.addEventListener('mouseup', () => {
-        ring.style.transform = 'translate(-50%, -50%) scale(1)';
-        dot.style.transform = hoverInteractive ? 'translate(-50%, -50%) rotate(45deg) scale(1.4)' : 'translate(-50%, -50%) rotate(45deg) scale(1)';
-      });
+      window.addEventListener('scroll', () => {
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 2;
+        const target = document.elementFromPoint(x, y);
+        updateIconBySection(target);
+      }, { passive: true });
       document.addEventListener('mouseleave', () => {
         glow.classList.remove('active');
-        ring.classList.remove('active');
-        dot.classList.remove('active');
-        ring.classList.remove('interactive');
+        icon.classList.remove('active');
         active = false;
       });
-    })();
-
-    // ===== OWL COMPANION SOUND =====
-    (function() {
-      const owl = document.getElementById('owlCompanion');
-      if (!owl) return;
-      const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-      if (isTouch) return;
-
-      let lastPlay = 0;
-      const owlAudio = new Audio('https://www.soundjay.com/animal/owl-1.mp3');
-      owlAudio.preload = 'auto';
-      owlAudio.volume = 0.55;
-      owlAudio.playsInline = true;
-      let soundUnlocked = false;
-
-      async function unlockSound() {
-        if (soundUnlocked) return;
-        try {
-          owlAudio.muted = true;
-          owlAudio.currentTime = 0;
-          await owlAudio.play();
-          owlAudio.pause();
-          owlAudio.currentTime = 0;
-          owlAudio.muted = false;
-          soundUnlocked = true;
-        } catch (_) {}
-      }
-
-      function playPeacefulOwl() {
-        const now = Date.now();
-        if (now - lastPlay < 700) return;
-        lastPlay = now;
-        owlAudio.currentTime = 0;
-        owlAudio.play().catch(() => {});
-      }
-
-      owl.addEventListener('mouseenter', playPeacefulOwl);
-      owl.addEventListener('mouseover', playPeacefulOwl);
-      owl.addEventListener('focus', playPeacefulOwl);
-      owl.addEventListener('click', playPeacefulOwl);
-      document.addEventListener('pointerdown', unlockSound, { once: true });
-      document.addEventListener('keydown', unlockSound, { once: true });
     })();
 
     // ===== TYPING ANIMATION =====
