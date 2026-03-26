@@ -289,7 +289,7 @@
     }
 
     .hero-title {
-      font-size: 1.4rem;
+      font-size: clamp(1.05rem, 1.6vw, 1.4rem);
       color: var(--text-secondary);
       margin-bottom: 1rem;
       animation: fadeInUp 0.8s ease 0.6s both;
@@ -297,11 +297,31 @@
 
     .hero-typing {
       font-family: 'Fira Code', monospace;
-      font-size: 1rem;
+      font-size: clamp(0.85rem, 1.1vw, 1rem);
       color: var(--accent2);
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.5rem;
       min-height: 1.5em;
       animation: fadeInUp 0.8s ease 0.8s both;
+    }
+
+    .hero-mini-stack {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.55rem;
+      margin-bottom: 2.2rem;
+      animation: fadeInUp 0.8s ease 0.9s both;
+    }
+
+    .hero-pill {
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      border: 1px solid var(--border);
+      background: rgba(108, 99, 255, 0.08);
+      color: var(--text-primary);
     }
 
     .hero-typing .cursor-blink {
@@ -361,7 +381,7 @@
       display: flex;
       justify-content: center;
       gap: 3rem;
-      margin-top: 4rem;
+      margin-top: 3rem;
       animation: fadeInUp 0.8s ease 1.2s both;
     }
 
@@ -418,6 +438,34 @@
       border-radius: 3px;
       background: var(--accent);
       animation: scrollWheel 2s ease-in-out infinite;
+    }
+
+    .achievement-strip {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      animation: fadeInUp 0.8s ease 1.3s both;
+    }
+
+    .achievement-item {
+      text-align: left;
+      border: 1px solid var(--border);
+      background: rgba(108, 99, 255, 0.05);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+    }
+
+    .achievement-item strong {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .achievement-item span {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
     }
 
     @keyframes scrollWheel {
@@ -737,6 +785,11 @@
       transition: all 0.4s ease;
       position: relative;
       group: true;
+    }
+
+    .project-card.featured {
+      border-color: rgba(0, 212, 255, 0.35);
+      box-shadow: 0 12px 34px rgba(0, 212, 255, 0.12);
     }
 
     .project-card::before {
@@ -1115,10 +1168,21 @@
       .about-highlights { justify-content: center; }
       .hero-name { font-size: 3.2rem; }
       .section-title { font-size: 2.2rem; }
+      .skills-grid { grid-template-columns: 1fr; }
       .projects-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 768px) {
+      .navbar {
+        padding: 0.85rem 1rem;
+      }
+      .navbar.scrolled {
+        padding: 0.65rem 1rem;
+      }
+      .nav-logo {
+        font-size: 1.2rem;
+      }
+
       .nav-links {
         display: none;
         position: fixed;
@@ -1139,15 +1203,71 @@
       .nav-toggle { display: flex; }
 
       .hero-name { font-size: 2.5rem; }
-      .hero-stats { gap: 1.5rem; }
+      .hero {
+        min-height: auto;
+        padding-top: 6.5rem;
+        padding-bottom: 4rem;
+      }
+      .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 340px;
+        margin: 0 auto;
+      }
+      .hero-buttons .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin-top: 2.2rem;
+      }
+      .achievement-strip {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+      }
+      .achievement-item {
+        text-align: center;
+      }
       .stat-number { font-size: 1.8rem; }
       .hero-title { font-size: 1.1rem; }
+      .hero-typing { font-size: 0.9rem; }
 
       section { padding: 4rem 1.2rem; }
+      .section-header { margin-bottom: 2.5rem; }
+      .section-title { font-size: 1.9rem; }
+      .section-subtitle { font-size: 0.98rem; }
+
+      .container {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .about-highlights {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-grid,
+      .projects-grid,
+      .education-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .skill-category,
+      .project-body,
+      .edu-card,
+      .timeline-card {
+        padding: 1.2rem;
+      }
 
       .timeline::before { left: 20px; }
       .timeline-item { padding-left: 55px; }
       .timeline-dot { left: 11px; }
+      .timeline-card:hover {
+        transform: none;
+      }
 
       .floating-badge { display: none; }
 
@@ -1156,6 +1276,58 @@
 
       .contact-cta h2 { font-size: 1.8rem; }
       .contact-links { flex-direction: column; align-items: center; }
+      .contact-link {
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-name { font-size: 2rem; }
+      .hero-title { font-size: 1rem; }
+      .hero-typing { min-height: 2.8em; }
+      .hero-mini-stack {
+        gap: 0.4rem;
+      }
+      .hero-pill {
+        font-size: 0.72rem;
+        padding: 0.3rem 0.6rem;
+      }
+      .hero-stats {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+      }
+      .stat {
+        padding: 0.6rem 0.2rem;
+        border-radius: 10px;
+        background: rgba(108, 99, 255, 0.05);
+        border: 1px solid var(--border);
+      }
+      .section-title { font-size: 1.7rem; }
+      .project-card,
+      .skill-category,
+      .edu-card {
+        border-radius: 14px;
+      }
+      .project-header { padding: 1rem 1rem 0; }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .cursor-glow,
+      #particles-canvas,
+      .scroll-indicator {
+        display: none;
+      }
+      .tilt-card,
+      .magnetic,
+      .project-card,
+      .skill-category,
+      .timeline-card,
+      .edu-card,
+      .contact-link {
+        transform: none !important;
+      }
     }
   </style>
 </head>
@@ -1193,10 +1365,16 @@
         <span class="first">Rohit</span>
         <span class="last">Thakur</span>
       </h1>
-      <p class="hero-title">Full Stack Developer &amp; AI Solutions Builder</p>
+      <p class="hero-title">Full Stack Developer | AI Product Engineer | Real-Time Systems Specialist</p>
       <p class="hero-typing">
         <span id="typed-text"></span><span class="cursor-blink">|</span>
       </p>
+      <div class="hero-mini-stack">
+        <span class="hero-pill">4+ Years Building Products</span>
+        <span class="hero-pill">AI + Voice Automation</span>
+        <span class="hero-pill">Scalable Backend Architecture</span>
+        <span class="hero-pill">Production-Ready Delivery</span>
+      </div>
       <div class="hero-buttons">
         <a href="#contact" class="btn btn-primary magnetic">
           <i class="fas fa-paper-plane"></i> Get in Touch
@@ -1220,6 +1398,20 @@
         <div class="stat">
           <div class="stat-number"><span class="count-up" data-target="10">0</span>+</div>
           <div class="stat-label">Tech Stack</div>
+        </div>
+      </div>
+      <div class="achievement-strip">
+        <div class="achievement-item">
+          <strong>End-to-End Ownership</strong>
+          <span>From architecture and APIs to polished frontend delivery.</span>
+        </div>
+        <div class="achievement-item">
+          <strong>AI + Voice Expertise</strong>
+          <span>Built production bots with real-time interactions.</span>
+        </div>
+        <div class="achievement-item">
+          <strong>High-Speed Execution</strong>
+          <span>Rapid delivery with maintainable and scalable code.</span>
         </div>
       </div>
     </div>
@@ -1315,6 +1507,7 @@
             <span class="skill-tag">TypeScript</span>
             <span class="skill-tag">REST APIs</span>
             <span class="skill-tag">Socket.IO</span>
+            <span class="skill-tag">RabbitMQ</span>
           </div>
         </div>
         <div class="skill-category reveal-scale tilt-card">
@@ -1388,6 +1581,7 @@
               <li><strong>StriperFans</strong> — Adult content platform using React.js, Node.js, Laravel, MongoDB.</li>
               <li><strong>Heyweek Chrome Extension</strong> — Upwork-like extension with real-time time tracking using WebSockets.</li>
               <li><strong>Commit</strong> — AI chatbot with custom prompt fine-tuning &amp; document/site training.</li>
+              <li><strong>In-House Voice Bot</strong> — Company product built as a full-stack solution with React/Next.js frontend, Node.js/Nest.js backend, real-time voice flow, and RabbitMQ-based async job processing.</li>
               <li><strong>Emi ChatBot / Andrew Humanoid / HBR / It's Bot</strong> — Socket-connected AI bots using OpenAI for multi-response handling.</li>
               <li><strong>Mallory AI</strong> — AI-powered chatbot with Vapi AI &amp; ElevenLabs for real-time voice interactions.</li>
               <li><strong>Muse</strong> — U.S. tax refund automation platform with modular APIs, NPM packages, and AWS Artifact. Architected for multi-service scalability.</li>
@@ -1453,6 +1647,23 @@
             <p>AI-powered chatbot with real-time voice interactions using Vapi AI and ElevenLabs. Seamless conversational experience.</p>
             <div class="project-tech">
               <span>Next.js</span><span>Node.js</span><span>Vapi AI</span><span>ElevenLabs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- In-House Voice Bot -->
+        <div class="project-card featured reveal-scale tilt-card">
+          <div class="project-header">
+            <div class="project-icon" style="background: linear-gradient(135deg, #0ea5e9, #8b5cf6);">
+              <i class="fas fa-headset"></i>
+            </div>
+            <span class="project-category" style="background: rgba(14,165,233,0.15); color: #38bdf8;">Voice AI</span>
+          </div>
+          <div class="project-body">
+            <h3>In-House Voice Bot</h3>
+            <p>Built an in-house company voice bot as a full-stack product with real-time conversation orchestration, scalable backend services, and async pipelines.</p>
+            <div class="project-tech">
+              <span>React.js</span><span>Next.js</span><span>Node.js</span><span>Nest.js</span><span>RabbitMQ</span><span>WebSockets</span>
             </div>
           </div>
         </div>
@@ -1578,8 +1789,11 @@
         <a href="https://www.linkedin.com/in/rohit-thakur-0bb019194" target="_blank" class="contact-link magnetic">
           <i class="fab fa-linkedin"></i> LinkedIn Profile
         </a>
-        <a href="mailto:rohit@example.com" class="contact-link magnetic">
+        <a href="mailto:thakurrohitthakur224@gmail.com" class="contact-link magnetic">
           <i class="fas fa-envelope"></i> Send Email
+        </a>
+        <a href="tel:+917018384067" class="contact-link magnetic">
+          <i class="fas fa-phone"></i> +91 70183 84067
         </a>
         <a href="https://github.com/rt2306" target="_blank" class="contact-link magnetic">
           <i class="fab fa-github"></i> GitHub
